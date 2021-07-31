@@ -16,10 +16,24 @@ public class Main {
             }
             str = String.valueOf(buf);
             result = maths(str.split(" "));
-            System.out.println("" + result);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
+
+        try(FileWriter writer = new FileWriter("output.txt", false))
+        {
+            // запись всей строки
+            String s = "" + result;
+            writer.write(s);
+            // запись по символам
+            writer.append('\n');
+            writer.flush();
+        }
+        catch(IOException ex){
+
+            System.out.println(ex.getMessage());
+        }
+
 
     }
 
