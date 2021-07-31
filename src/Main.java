@@ -5,6 +5,9 @@ public class Main {
     public static void main (String[] args) {
         String str = "";
         double result = 0;
+        /*
+            Читаю из файла всё что есть
+         */
         try (FileReader reader = new FileReader("input.txt")) {
             char[] buf = new char[256];
             int c;
@@ -15,16 +18,32 @@ public class Main {
                 }
             }
             str = String.valueOf(buf);
-            result = maths(str.split(" "));
+
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
+        /*
+            Разбиваю на мссивы и для каждого элемента формирую выводимую строку
+         */
+        String[] arr = str.split("\r\n\r\n");
+        String strOut = "";
+        for (int i = 0;i < arr.length;i++) {
+            try {
+                result = maths(arr[i].split(" "));
+                strOut = strOut + arr[i] + " = " + result + "\n\n";
+            } catch (Exception ex) {
+                strOut = strOut + arr[i] + " = " + ex.getMessage() + "\n\n";
+            }
+        }
+
+        /*
+            Записываю всё в файл
+         */
         try(FileWriter writer = new FileWriter("output.txt", false))
         {
             // запись всей строки
-            String s = "" + result;
-            writer.write(s);
+            writer.write(strOut);
             // запись по символам
             writer.append('\n');
             writer.flush();
